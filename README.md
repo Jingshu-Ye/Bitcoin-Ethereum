@@ -1,4 +1,4 @@
-# Copare Forecasts of Prices of Two Cointegrated Cryptocurrencies with ARIMA Models
+# Compare Forecasts of Prices of Two Cointegrated Cryptocurrencies with ARIMA Models
 ---
 Title: "Compare Forecasts of Prices of Bitcoin and Ethereum with Two Independent Univariate ARIMA Models."
 Output:
