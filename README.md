@@ -1,7 +1,7 @@
-# Bitcoin-Ethereum
+# Copare Forecasts of Prices of Two Cointegrated Cryptocurrencies with ARIMA Models
 ---
-title: "Compare Forecasts of Prices of Two Cointegrated Cryptocurrencies with Two Independent Univariate ARIMA Models."
-output:
+Title: "Compare Forecasts of Prices of Bitcoin and Ethereum with Two Independent Univariate ARIMA Models."
+Output:
   html_document:
     df_print: paged
   pdf_document: default
@@ -101,7 +101,7 @@ adf.test(eth_stationary)
 kpss.test(eth_stationary)
 ```
 
-According to both tests the original time series are not stationary. However, after differencing them once they turn to be both stationary which can also be visually confirmed based on the following graphs
+According to both tests, the original time series are not stationary. However, after differencing them once, they turn to be both stationary, which can also be visually confirmed based on the following graphs.
 
 ```{r message=FALSE, warning=FALSE}
 plot(btc_ts)
@@ -119,7 +119,7 @@ acf(eth_stationary)
 pacf(eth_stationary)
 ```
 
-ACF of both time series cut off at lag 0 meaning order of MA is 0 and PACF does not seem to be decaying, because of which order of AR component cannot be visually detected. Multiple values of AR will be tested and it will be chosen based on AIC, BIC and error measures
+ACF of both time series cut off at lag 0 meaning order of MA is 0 and PACF does not seem to be decaying, because of which order of AR component cannot be visually detected. Multiple values of AR will be tested and it will be chosen based on AIC, BIC and error measures.
 
 ## Train and test sets 80/20
 ```{r results='hide', message=FALSE, warning=FALSE}
@@ -150,7 +150,7 @@ print(arimaModel_btc_1);print(arimaModel_btc_2);print(arimaModel_btc_3)
 print(arimaModel_eth_1);print(arimaModel_eth_2);print(arimaModel_eth_3) 
 ```
 
-Since AIC is not decreasing by adding higher orders of AR, simpler model is more desirable meaning AR(0). We will still test models with AR(1) and AR(2) to compare error measures
+Since AIC is not decreasing by adding higher orders of AR, simpler model is more desirable meaning AR(0). I will still test models with AR(1) and AR(2) to compare error measures.
 
 #### Forecasts
 ```{r results='hide', message=FALSE, warning=FALSE}
@@ -182,7 +182,7 @@ accMeasure_eth=rbind(accmeasures_eth_1,accmeasures_eth_2,accmeasures_eth_3, accm
 print(accMeasure_eth)
 ```
 
-As we have already found based on AIC, adding higher orders of AR does not have any added value. We also confirmed the irrelevance of higher orders of AR based on close values of all four error measures regardless of the order. Same explanation applies to eth just like in the case of 'accMeasure_btc'
+As I have already found that adding higher orders of AR does not have any added value based on AIC. I also confirmed the irrelevance of higher orders of AR based on close values of all four error measures regardless of the order. Same explanation applies to eth just like in the case of 'accMeasure_btc'.
 
 ## Granger causality
 ```{r message=FALSE, warning=FALSE}
@@ -198,7 +198,7 @@ ecm.btc <- lm(btc.d ~ error.ecm1 + btc.d1 + eth.d1)
 summary(ecm.btc) 
 ```
 
-Speed of adjustment coefficient is positive and significant. So Bitcoin does all the work to get the two variables back towards the equilibrium path. This implies that there is Granger causality from Ethereum to Bitcoin and that it takes about 1/0.008861 periods to return to equilibrium
+Speed of adjustment coefficient is positive and significant. So Bitcoin does all the work to get the two variables back towards the equilibrium path, which implies that there is Granger causality from Ethereum to Bitcoin and that it takes about 1/0.008861 periods to return to equilibrium.
 
 ## Cointegration
 ```{r message=FALSE, warning=FALSE}
@@ -208,7 +208,7 @@ cint2.dyn <- dynlm(d(ehat)~L(ehat)-1)
 summary(cint2.dyn)
 ```
 
-Test rejects the null of no cointegration at 10% confidence level, meaning that the series are cointegrated
+Test rejects the null of no cointegration at 10% confidence level, meaning that the series are cointegrated.
 
 ## Forecast variance decomposition
 ```{r message=FALSE, warning=FALSE}
@@ -219,7 +219,7 @@ summary(varfit)
 plot(fevd(varfit)) 
 ```
 
-Forecast variance decomposition estimates the contribution of a shock in each variable to the response in both variables.Graph shows that almost 100 percent of the variance in Bitcoin is caused by Bitcoin itself while only about 70 percent of variance of Ethereum is caused by Ethereum and the rest is caused by Bitcoin
+Forecast variance decomposition estimates the contribution of a shock in each variable to the response in both variables. Graph shows that almost 100 percent of the variance in Bitcoin is caused by Bitcoin itself, while only about 70 percent of variance of Ethereum is caused by Ethereum and the rest is caused by Bitcoin.
 
 ## VAR model
 ```{r results=FALSE, message=FALSE, warning=FALSE}
@@ -247,4 +247,4 @@ forecasts %>%
   autoplot() + xlab("Year")
 ```
 
-VAR model turns out to be performing better for Bitcoin than ARIMA models based on mape, 35% and 18% respectively
+VAR model turns out to be performing better for Bitcoin than ARIMA models based on mape, 35% and 18% respectively.
